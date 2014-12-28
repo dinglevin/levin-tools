@@ -10,6 +10,7 @@
   <modules>
     <module>levin-tools-common</module>
     <module>levin-tools-event-scheduler</module>
+    <module>levin-tools-protobuf-rpc</module>
   </modules>
   
   <properties>
