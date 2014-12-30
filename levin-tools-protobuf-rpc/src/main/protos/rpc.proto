@@ -1,0 +1,24 @@
+package levin.protobuf;
+
+option java_package = "org.levin.tools.protobuf.rpc";
+option java_outer_classname = "RpcProtos";
+
+message RpcRequest {
+    required string service = 1;
+    required string method = 2;
+    optional bytes data = 5;
+}
+
+message RpcResponse {
+    enum Status {
+        SUCCESS = 1;
+        APP_ERROR = 2;
+        SERVER_ERROR = 3;
+    }
+
+    required string service = 1;
+    required string method = 2;
+    required Status status = 3;
+    optional string errorMsg =4;
+    optional bytes data = 5;
+}

@@ -11,6 +11,7 @@
   
   <properties>
     <protobuf.version>2.5.0</protobuf.version>
+    <protoc.path>/Users/dinglevin/local-lib/protobuf/bin/protoc</protoc.path>
   </properties>
   
   <dependencies>
@@ -20,4 +21,36 @@
         <version>${protobuf.version}</version>
     </dependency>
   </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-maven-plugins</artifactId>
+        <executions>
+          <execution>
+            <id>compile-protoc</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>protoc</goal>
+            </goals>
+            <configuration>
+              <protocVersion>${protobuf.version}</protocVersion>
+              <protocCommand>${protoc.path}</protocCommand>
+              <imports>
+                <param>${basedir}/src/main/protos</param>
+              </imports>
+              <source>
+                <directory>${basedir}/src/main/protos</directory>
+                <includes>
+                  <include>rpc.proto</include>
+                </includes>
+              </source>
+              <output>${project.build.directory}/generated-sources/java</output>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
