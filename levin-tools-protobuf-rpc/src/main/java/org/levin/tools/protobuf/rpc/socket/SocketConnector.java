@@ -10,13 +10,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
+import org.levin.tools.protobuf.rpc.Connection;
 import org.levin.tools.protobuf.rpc.Connector;
-import org.levin.tools.protobuf.rpc.Endpoint;
+import org.levin.tools.protobuf.rpc.RpcProtos.RpcRequest;
+import org.levin.tools.protobuf.rpc.RpcProtos.RpcResponse;
 import org.levin.tools.protobuf.rpc.RpcServer;
-import org.levin.tools.protobuf.rpc.ServiceContainer;
-import org.levin.tools.protobuf.rpc.SocketRpcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.protobuf.ByteString;
 
 public class SocketConnector implements Connector {
     private static final Logger logger = LoggerFactory.getLogger(SocketConnector.class);
@@ -27,7 +29,7 @@ public class SocketConnector implements Connector {
     private static final int MAX_SERVER_PORT = 65536;
     private static final int MIN_ACCEPTORS = 0;
     private static final int DEFAULT_ACCEPTORS = 5;
-    private static final int MAX_ACCEPTORS = 100;
+    private static final int MAX_ACCEPTORS = 10000;
     
     public static enum Status {
         Initialized,
@@ -38,7 +40,7 @@ public class SocketConnector implements Connector {
         Stopped
     }
     
-    private final RpcServer rpcServer;
+    private RpcServer rpcServer;
     
     private int serverPort = 0;
     private int backlog = MIN_ACCEPTORS;
@@ -50,11 +52,18 @@ public class SocketConnector implements Connector {
     private volatile Status status;
     private Thread[] acceptorThreads;
     
-    public SocketConnector(RpcServer rpcServer) {
+    public SocketConnector() {
+        this.status = Status.Initialized;
+    }
+    
+    public void setRpcServer(RpcServer rpcServer) {
         checkNotNull(rpcServer, "rpcServer is null");
         
+        if (this.rpcServer != null) {
+            throw new IllegalStateException("rpcServer already set");
+        }
+        
         this.rpcServer = rpcServer;
-        this.status = Status.Initialized;
     }
     
     public int getServerPort() {
@@ -77,7 +86,7 @@ public class SocketConnector implements Connector {
         return this.acceptors;
     }
     public void setAcceptors(int acceptors) {
-        checkWithinRange(MIN_ACCEPTORS, MAX_ACCEPTORS, backlog, "backlog");
+        checkWithinRange(MIN_ACCEPTORS, MAX_ACCEPTORS, acceptors, "acceptors");
         this.acceptors = acceptors;
     }
     
@@ -88,7 +97,7 @@ public class SocketConnector implements Connector {
     
     public synchronized void start() throws IOException {
         if (status != Status.Initialized) {
-            throw new SocketRpcException("SocketServer already started");
+            throw new RuntimeException("SocketServer already started");
         }
         
         status = Status.Starting;
@@ -120,8 +129,13 @@ public class SocketConnector implements Connector {
         status = Status.Stopped;
     }
     
-    public Endpoint createEndpoint(Socket socket, ServiceContainer serviceContainer) throws IOException {
-        return new SocketEndpoint(socket, serviceContainer);
+    @Override
+    public boolean isRunning() {
+        return status == Status.Running;
+    }
+    
+    public Connection createConnection(Socket socket) {
+        return new SocketConnection(socket);
     }
     
     protected void configServerSocket(ServerSocket serverSocket) throws IOException {
@@ -141,11 +155,13 @@ public class SocketConnector implements Connector {
         public void run() {
             setRunning();
             
+            logger.info("Acceptor started");
+            
             while (status == Status.Running) {
                 try {
                     Socket socket = serverSocket.accept();
-                    Endpoint endpoint = createEndpoint(socket, rpcServer.getServiceContainer());
-                    endpoint.run();
+                    Connection connection = createConnection(socket);
+                    rpcServer.submitConnectionHandler(new ConnectionHandler(connection));
                 } catch (IOException e) {
                     logger.error("Error happened on acceptor-" + index + ", exit!", e);
                     break;
@@ -164,5 +180,40 @@ public class SocketConnector implements Connector {
     
     private static void checkWithinRange(int min, int max, int value, String arg) {
         checkArgument(value > min && value < max, arg + "(" + value + ") not within (" + min + ", " + max + ")");
+    }
+    
+    private class ConnectionHandler implements Runnable {
+        private final Connection connection;
+        
+        public ConnectionHandler(Connection connection) {
+            this.connection = connection;
+        }
+
+        @Override
+        public void run() {
+            try {
+                RpcRequest request = null;
+                try {
+                    request = connection.receiveRequest();
+                } catch (Throwable ex) {
+                    connection.sendErrorResponse(ex, null, null);
+                    return;
+                }
+                
+                try {
+                    doRun(request.getService(), request.getMethod(), request.getData());
+                } catch (Throwable ex) {
+                    connection.sendErrorResponse(ex, request.getService(), request.getMethod());
+                }
+            } finally {
+                // close connection after every request is done
+                connection.close();
+            }
+        }
+        
+        protected void doRun(String serviceName, String methodName, ByteString data) {
+            RpcResponse response = rpcServer.doRpc(serviceName, methodName, data);
+            connection.sendResponse(response);
+        }
     }
 }

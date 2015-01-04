@@ -14,9 +14,11 @@ public interface Connector {
     public void setAcceptors(int acceptors);
     
     public RpcServer getRpcServer();
+    public void setRpcServer(RpcServer rpcServer);
     
-    public Endpoint createEndpoint(Socket socket, ServiceContainer serviceContainer) throws IOException;
+    public Connection createConnection(Socket socket);
     
     public void start() throws IOException;
     public void stop() throws IOException, InterruptedException;
+    public boolean isRunning();
 }

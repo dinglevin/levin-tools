@@ -41,13 +41,13 @@ public final class RpcProtos {
     com.google.protobuf.ByteString
         getMethodBytes();
 
-    // optional bytes data = 5;
+    // optional bytes data = 3;
     /**
-     * <code>optional bytes data = 5;</code>
+     * <code>optional bytes data = 3;</code>
      */
     boolean hasData();
     /**
-     * <code>optional bytes data = 5;</code>
+     * <code>optional bytes data = 3;</code>
      */
     com.google.protobuf.ByteString getData();
   }
@@ -112,7 +112,7 @@ public final class RpcProtos {
               method_ = input.readBytes();
               break;
             }
-            case 42: {
+            case 26: {
               bitField0_ |= 0x00000004;
               data_ = input.readBytes();
               break;
@@ -243,17 +243,17 @@ public final class RpcProtos {
       }
     }
 
-    // optional bytes data = 5;
-    public static final int DATA_FIELD_NUMBER = 5;
+    // optional bytes data = 3;
+    public static final int DATA_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString data_;
     /**
-     * <code>optional bytes data = 5;</code>
+     * <code>optional bytes data = 3;</code>
      */
     public boolean hasData() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bytes data = 5;</code>
+     * <code>optional bytes data = 3;</code>
      */
     public com.google.protobuf.ByteString getData() {
       return data_;
@@ -291,7 +291,7 @@ public final class RpcProtos {
         output.writeBytes(2, getMethodBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(5, data_);
+        output.writeBytes(3, data_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -312,7 +312,7 @@ public final class RpcProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, data_);
+          .computeBytesSize(3, data_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -688,22 +688,22 @@ public final class RpcProtos {
         return this;
       }
 
-      // optional bytes data = 5;
+      // optional bytes data = 3;
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes data = 5;</code>
+       * <code>optional bytes data = 3;</code>
        */
       public boolean hasData() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional bytes data = 5;</code>
+       * <code>optional bytes data = 3;</code>
        */
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
-       * <code>optional bytes data = 5;</code>
+       * <code>optional bytes data = 3;</code>
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -715,7 +715,7 @@ public final class RpcProtos {
         return this;
       }
       /**
-       * <code>optional bytes data = 5;</code>
+       * <code>optional bytes data = 3;</code>
        */
       public Builder clearData() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -930,40 +930,200 @@ public final class RpcProtos {
     public enum Status
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>SUCCESS = 1;</code>
+       * <code>SUCCESS = 0;</code>
+       *
+       * <pre>
+       * From server side
+       * </pre>
        */
-      SUCCESS(0, 1),
+      SUCCESS(0, 0),
       /**
-       * <code>APP_ERROR = 2;</code>
+       * <code>BAD_REQUEST_DATA = 1;</code>
+       *
+       * <pre>
+       * Server received bad request data
+       * </pre>
        */
-      APP_ERROR(1, 2),
+      BAD_REQUEST_DATA(1, 1),
       /**
-       * <code>SERVER_ERROR = 3;</code>
+       * <code>BAD_REQUEST_PROTO = 2;</code>
+       *
+       * <pre>
+       * Server received bad request proto
+       * </pre>
        */
-      SERVER_ERROR(2, 3),
+      BAD_REQUEST_PROTO(2, 2),
+      /**
+       * <code>SERVICE_NOT_FOUND = 3;</code>
+       *
+       * <pre>
+       * Service not found on server
+       * </pre>
+       */
+      SERVICE_NOT_FOUND(3, 3),
+      /**
+       * <code>METHOD_NOT_FOUND = 4;</code>
+       *
+       * <pre>
+       * Method not found on server
+       * </pre>
+       */
+      METHOD_NOT_FOUND(4, 4),
+      /**
+       * <code>RPC_ERROR = 5;</code>
+       *
+       * <pre>
+       * RPC throws exception on server
+       * </pre>
+       */
+      RPC_ERROR(5, 5),
+      /**
+       * <code>RPC_FAILED = 6;</code>
+       *
+       * <pre>
+       * RPC failed on server
+       * </pre>
+       */
+      RPC_FAILED(6, 6),
+      /**
+       * <code>INVALID_REQUEST_PROTO = 7;</code>
+       *
+       * <pre>
+       * From client side
+       * </pre>
+       */
+      INVALID_REQUEST_PROTO(7, 7),
+      /**
+       * <code>BAD_RESPONSE_PROTO = 8;</code>
+       *
+       * <pre>
+       * Server returned a bad response proto
+       * </pre>
+       */
+      BAD_RESPONSE_PROTO(8, 8),
+      /**
+       * <code>UNKNOWN_HOST = 9;</code>
+       *
+       * <pre>
+       * Could not find supplied host
+       * </pre>
+       */
+      UNKNOWN_HOST(9, 9),
+      /**
+       * <code>IO_ERROR = 10;</code>
+       *
+       * <pre>
+       * IO error while communicating with server
+       * </pre>
+       */
+      IO_ERROR(10, 10),
       ;
 
       /**
-       * <code>SUCCESS = 1;</code>
+       * <code>SUCCESS = 0;</code>
+       *
+       * <pre>
+       * From server side
+       * </pre>
        */
-      public static final int SUCCESS_VALUE = 1;
+      public static final int SUCCESS_VALUE = 0;
       /**
-       * <code>APP_ERROR = 2;</code>
+       * <code>BAD_REQUEST_DATA = 1;</code>
+       *
+       * <pre>
+       * Server received bad request data
+       * </pre>
        */
-      public static final int APP_ERROR_VALUE = 2;
+      public static final int BAD_REQUEST_DATA_VALUE = 1;
       /**
-       * <code>SERVER_ERROR = 3;</code>
+       * <code>BAD_REQUEST_PROTO = 2;</code>
+       *
+       * <pre>
+       * Server received bad request proto
+       * </pre>
        */
-      public static final int SERVER_ERROR_VALUE = 3;
+      public static final int BAD_REQUEST_PROTO_VALUE = 2;
+      /**
+       * <code>SERVICE_NOT_FOUND = 3;</code>
+       *
+       * <pre>
+       * Service not found on server
+       * </pre>
+       */
+      public static final int SERVICE_NOT_FOUND_VALUE = 3;
+      /**
+       * <code>METHOD_NOT_FOUND = 4;</code>
+       *
+       * <pre>
+       * Method not found on server
+       * </pre>
+       */
+      public static final int METHOD_NOT_FOUND_VALUE = 4;
+      /**
+       * <code>RPC_ERROR = 5;</code>
+       *
+       * <pre>
+       * RPC throws exception on server
+       * </pre>
+       */
+      public static final int RPC_ERROR_VALUE = 5;
+      /**
+       * <code>RPC_FAILED = 6;</code>
+       *
+       * <pre>
+       * RPC failed on server
+       * </pre>
+       */
+      public static final int RPC_FAILED_VALUE = 6;
+      /**
+       * <code>INVALID_REQUEST_PROTO = 7;</code>
+       *
+       * <pre>
+       * From client side
+       * </pre>
+       */
+      public static final int INVALID_REQUEST_PROTO_VALUE = 7;
+      /**
+       * <code>BAD_RESPONSE_PROTO = 8;</code>
+       *
+       * <pre>
+       * Server returned a bad response proto
+       * </pre>
+       */
+      public static final int BAD_RESPONSE_PROTO_VALUE = 8;
+      /**
+       * <code>UNKNOWN_HOST = 9;</code>
+       *
+       * <pre>
+       * Could not find supplied host
+       * </pre>
+       */
+      public static final int UNKNOWN_HOST_VALUE = 9;
+      /**
+       * <code>IO_ERROR = 10;</code>
+       *
+       * <pre>
+       * IO error while communicating with server
+       * </pre>
+       */
+      public static final int IO_ERROR_VALUE = 10;
 
 
       public final int getNumber() { return value; }
 
       public static Status valueOf(int value) {
         switch (value) {
-          case 1: return SUCCESS;
-          case 2: return APP_ERROR;
-          case 3: return SERVER_ERROR;
+          case 0: return SUCCESS;
+          case 1: return BAD_REQUEST_DATA;
+          case 2: return BAD_REQUEST_PROTO;
+          case 3: return SERVICE_NOT_FOUND;
+          case 4: return METHOD_NOT_FOUND;
+          case 5: return RPC_ERROR;
+          case 6: return RPC_FAILED;
+          case 7: return INVALID_REQUEST_PROTO;
+          case 8: return BAD_RESPONSE_PROTO;
+          case 9: return UNKNOWN_HOST;
+          case 10: return IO_ERROR;
           default: return null;
         }
       }
@@ -1828,12 +1988,17 @@ public final class RpcProtos {
     java.lang.String[] descriptorData = {
       "\n\trpc.proto\022\016levin.protobuf\";\n\nRpcReques" +
       "t\022\017\n\007service\030\001 \002(\t\022\016\n\006method\030\002 \002(\t\022\014\n\004da" +
-      "ta\030\005 \001(\014\"\272\001\n\013RpcResponse\022\017\n\007service\030\001 \002(" +
+      "ta\030\003 \001(\014\"\346\002\n\013RpcResponse\022\017\n\007service\030\001 \002(" +
       "\t\022\016\n\006method\030\002 \002(\t\0222\n\006status\030\003 \002(\0162\".levi" +
       "n.protobuf.RpcResponse.Status\022\020\n\010errorMs" +
-      "g\030\004 \001(\t\022\014\n\004data\030\005 \001(\014\"6\n\006Status\022\013\n\007SUCCE" +
-      "SS\020\001\022\r\n\tAPP_ERROR\020\002\022\020\n\014SERVER_ERROR\020\003B)\n" +
-      "\034org.levin.tools.protobuf.rpcB\tRpcProtos"
+      "g\030\004 \001(\t\022\014\n\004data\030\005 \001(\014\"\341\001\n\006Status\022\013\n\007SUCC" +
+      "ESS\020\000\022\024\n\020BAD_REQUEST_DATA\020\001\022\025\n\021BAD_REQUE" +
+      "ST_PROTO\020\002\022\025\n\021SERVICE_NOT_FOUND\020\003\022\024\n\020MET" +
+      "HOD_NOT_FOUND\020\004\022\r\n\tRPC_ERROR\020\005\022\016\n\nRPC_FA" +
+      "ILED\020\006\022\031\n\025INVALID_REQUEST_PROTO\020\007\022\026\n\022BAD",
+      "_RESPONSE_PROTO\020\010\022\020\n\014UNKNOWN_HOST\020\t\022\014\n\010I" +
+      "O_ERROR\020\nB)\n\034org.levin.tools.protobuf.rp" +
+      "cB\tRpcProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -1,50 +1,48 @@
 package org.levin.tools.protobuf.rpc.controller;
 
+import static com.google.common.base.Preconditions.*;
+
 import com.google.protobuf.RpcCallback;
 import com.google.protobuf.RpcController;
 
-public class DefaultRpcController implements RpcController {
+abstract class AbstractRpcController implements RpcController {
+    private String errorText = null;
+    private boolean canncelled = false;
 
     @Override
     public void reset() {
-        // TODO Auto-generated method stub
-        
+        errorText = null;
+        canncelled = false;
     }
 
     @Override
     public boolean failed() {
-        // TODO Auto-generated method stub
-        return false;
+        return errorText != null;
     }
 
     @Override
     public String errorText() {
-        // TODO Auto-generated method stub
-        return null;
+        return errorText;
     }
 
     @Override
     public void startCancel() {
-        // TODO Auto-generated method stub
-        
+        canncelled = true;
     }
 
     @Override
     public void setFailed(String reason) {
-        // TODO Auto-generated method stub
-        
+        this.errorText = checkNotNull(reason, "reason is null");
     }
 
     @Override
     public boolean isCanceled() {
-        // TODO Auto-generated method stub
-        return false;
+        return canncelled;
     }
 
     @Override
     public void notifyOnCancel(RpcCallback<Object> callback) {
-        // TODO Auto-generated method stub
-        
+        throw new UnsupportedOperationException("notifyOnCancel");
     }
 
 }
