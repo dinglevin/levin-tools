@@ -1,0 +1,43 @@
+属性:日期 ，开盘价， 最高价， 收盘价， 最低价， 成交量， 价格变动 ，涨跌幅，5日均价，10日均价，20日均价，5日均量，10日均量，20日均量，换手率
+
+Get historical data daily/weekly/monthly(sh/sz/hs300/sz50/cyb/zxb):
+http://api.finance.ifeng.com/akdaily?code=sh600848&type=last
+http://api.finance.ifeng.com/akweekly?code=sh600848&type=last
+http://api.finance.ifeng.com/akmonthly?code=sh600848&type=last
+
+Get historical data every certain mins(5/15/30/60), (sh/sz/hs300/sz50/cyb/zxb)
+http://api.finance.ifeng.com/akmin?scode=sh600848&type=5
+
+
+Get historical data with excel sheet(GBK format):
+http://market.finance.sina.com.cn/downxls.php?date=2015-07-17&symbol=sh600848
+
+Get current day tick data:
+http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?num=80&sort=changepercent&asc=0&node=hs_a&symbol=&_s_r_a=page&page=1'
+
+http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_Transactions.getAllPageTime?symbol=sh600848
+
+http://vip.stock.finance.sina.com.cn/quotes_service/view/vMS_tradedetail.php?symbol=sh600848&page=1
+
+http://hq.sinajs.cn/rn=1234&list=sh600848,sh600847
+
+
+http://hq.sinajs.cn/rn=xppzh&list=sh000001,sh000002,sh000003,sh000008,sh000009,sh000010,sh000011,sh000012,sh000016,sh000017,sh000300,sz399001,sz399002,sz399003,sz399004,sz399005,sz399006,sz399100,sz399101,sz399106,sz399107,sz399108,sz399333,sz399606
+
+http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/sh600847/type/S.phtml?year=15&jidu=JAN
+http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_FuQuanMarketHistory/stockid/sh600847.phtml?year=15&jidu=
+
+
+
+Basically:
+获取沪深上市公司基本情况:
+http://tudata.oss-cn-beijing.aliyuncs.com/all.csv
+
+获取业绩报表数据
+http://vip.stock.finance.sina.com.cn/q/go.php/vFinanceAnalyze/kind/mainindex/index.phtml?s_i=&s_a=&s_c=&reportdate=2015&quarter=1&p=1&num=10
+
+获取盈利能力数据
+http://vip.stock.finance.sina.com.cn/q/go.php/vFinanceAnalyze/kind/profit/index.phtml?s_i=&s_a=&s_c=&reportdate=2015&quarter=1&p=1&num=10
+
+获取营运能力数据
+http://vip.stock.finance.sina.com.cn/q/go.php/vFinanceAnalyze/kind/operation/index.phtml?s_i=&s_a=&s_c=&reportdate=2015&quarter=1&p=1&num=10

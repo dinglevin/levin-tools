@@ -12,6 +12,7 @@
     <module>levin-tools-event-scheduler</module>
     <module>levin-tools-protobuf-rpc</module>
     <module>protobuf-socket-rpc</module>
+    <module>levin-analysis-financial</module>
   </modules>
   
   <properties>
