@@ -19,7 +19,7 @@
         <version.slf4j>1.7.7</version.slf4j>
         <version.log4j>1.2.16</version.log4j>
         <version.mockito>1.8.2</version.mockito>
-        <version.junit>4.10</version.junit>
+        <version.junit>4.13.1</version.junit>
     </properties>
 
     <dependencies>
