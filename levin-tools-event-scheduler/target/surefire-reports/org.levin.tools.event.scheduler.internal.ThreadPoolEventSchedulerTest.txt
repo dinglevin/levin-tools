@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.levin.tools.event.scheduler.internal.ThreadPoolEventSchedulerTest
--------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 73.587 sec
