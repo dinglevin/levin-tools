@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <version.netty>4.0.28.Final</version.netty>
+        <version.netty>4.1.42.Final</version.netty>
         <version.guava>15.0</version.guava>
         <version.commons.lang>3.2.1</version.commons.lang>
         <version.joda.time>2.8.1</version.joda.time>
