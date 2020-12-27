@@ -374,3 +374,5 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+levin-tools-event-scheduler/src/test/java/com/levin/
+levin-tools-protobuf-rpc/src/test/java/org/

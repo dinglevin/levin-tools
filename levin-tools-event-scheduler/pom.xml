@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.dinglevin</groupId>
         <artifactId>levin-tools</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>levin-tools-event-scheduler</artifactId>
